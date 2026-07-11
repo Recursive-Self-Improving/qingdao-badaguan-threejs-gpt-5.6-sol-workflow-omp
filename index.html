@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta
+      name="description"
+      content="在程序生成的青岛八大关景观中，沿林荫街道走向太平湾。"
+    />
+    <meta name="theme-color" content="#17201f" />
+    <title>八大关 · BADAGUAN, QINGDAO</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="app" data-mode="loading">
+      <a id="skip-link" class="skip-link" href="#control-strip">跳至漫步控制</a>
+
+      <p id="scene-label" class="sr-only">八大关虚拟景观</p>
+      <p id="scene-description" class="sr-only">
+        一处可步行探索的三维海滨街区：低矮花园别墅散落在林荫与花岗岩院墙之间，街道缓缓向南延伸，前方是太平湾，北侧丘陵在树冠后起伏。
+      </p>
+      <canvas
+        id="scene"
+        role="img"
+        tabindex="-1"
+        aria-labelledby="scene-label"
+        aria-describedby="scene-description"
+      >
+        您的浏览器无法显示三维画布。这里原本是一幅可探索的八大关海滨街景：林荫街道、花园别墅、花岗岩院墙与远处的太平湾。
+      </canvas>
+
+      <div class="atmosphere-frame" aria-hidden="true">
+        <span class="frame-mark frame-mark--nw"></span>
+        <span class="frame-mark frame-mark--se"></span>
+      </div>
+
+      <header class="wordmark" aria-label="八大关，青岛">
+        <span class="wordmark__han">八大关</span>
+        <span class="wordmark__rule" aria-hidden="true"></span>
+        <span class="wordmark__latin">BADAGUAN · QINGDAO</span>
+      </header>
+
+      <main class="experience-shell">
+        <section id="entry" class="entry" aria-labelledby="entry-title">
+          <div class="entry__wash" aria-hidden="true"></div>
+          <div class="entry__content">
+            <p class="entry__eyebrow">
+              <span>青岛 · 太平湾北岸</span>
+              <span aria-hidden="true">36°03′N</span>
+            </p>
+            <h1 id="entry-title" class="entry__title">八大关</h1>
+            <p class="entry__subtitle" lang="en">BADAGUAN · QINGDAO</p>
+            <p class="entry__invitation">沿林荫街道走向太平湾</p>
+
+            <div class="entry__loading" aria-label="景观载入状态">
+              <div
+                id="progress-bar"
+                class="loading-rule"
+                role="progressbar"
+                aria-label="景观载入进度"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                aria-valuenow="0"
+                aria-valuetext="正在载入，0%"
+                style="--progress: 0"
+              ></div>
+              <p id="progress-copy" class="loading-copy" role="status" aria-live="polite">
+                正在载入林荫与海风 · 0%
+              </p>
+            </div>
+
+            <div class="entry__actions">
+              <button
+                id="enter-button"
+                class="action action--primary"
+                type="button"
+                aria-describedby="entry-action-note"
+                disabled
+              >
+                <span>步入八大关</span>
+                <span class="action__arrow" aria-hidden="true">→</span>
+              </button>
+              <button id="still-button" class="action action--quiet" type="button" disabled>
+                静观风景
+              </button>
+            </div>
+            <p id="entry-action-note" class="entry__note">
+              可使用鼠标与键盘漫步；触屏设备可通过左右触控区移动与环顾，也可选择不移动的静观模式。
+            </p>
+          </div>
+
+          <p class="entry__time" aria-label="场景时刻，十月下午四点三十五分">
+            <span>OCT</span>
+            <span aria-hidden="true">/</span>
+            <time datetime="16:35">16:35</time>
+          </p>
+        </section>
+
+        <aside id="hud" class="hud" aria-label="漫步界面" aria-hidden="true" hidden inert>
+          <div class="hud__place" aria-hidden="true">
+            <span>36°03′N · 120°20′E</span>
+            <span class="hud__place-rule"></span>
+            <span>TAIPING BAY ↓</span>
+          </div>
+
+          <div class="hud__mode" aria-live="off">
+            <span class="hud__mode-dot" aria-hidden="true"></span>
+            <span id="mode-copy" data-mode-copy>载入中</span>
+          </div>
+
+          <nav id="control-strip" class="control-strip" aria-label="漫步控制" tabindex="-1">
+            <div class="control-strip__group control-strip__group--movement">
+              <span class="control-strip__label">移动</span>
+              <span class="key-map" data-control="move TouchMove" aria-label="W A S D 或方向键">
+                <kbd data-control="forward KeyW ArrowUp">W</kbd>
+                <span class="key-map__row">
+                  <kbd data-control="left KeyA ArrowLeft">A</kbd>
+                  <kbd data-control="backward KeyS ArrowDown">S</kbd>
+                  <kbd data-control="right KeyD ArrowRight">D</kbd>
+                </span>
+              </span>
+            </div>
+
+            <span class="control-strip__divider" aria-hidden="true"></span>
+
+            <div class="control-strip__group control-strip__group--look">
+              <span class="control-strip__label">环顾</span>
+              <span class="mouse-mark" data-control="look MouseMove PointerMove Drag" aria-hidden="true">
+                <span class="mouse-mark__wheel"></span>
+              </span>
+              <span class="control-strip__copy">点击锁定 · 或拖动</span>
+            </div>
+
+            <span class="control-strip__divider control-strip__divider--secondary" aria-hidden="true"></span>
+
+            <div class="control-strip__group control-strip__group--pause">
+              <kbd data-control="pause Escape">ESC</kbd>
+              <span class="control-strip__copy">暂停</span>
+            </div>
+
+            <button
+              id="help-button"
+              class="icon-action"
+              type="button"
+              aria-label="打开操作与设置"
+              aria-controls="help-panel"
+              aria-expanded="false"
+            >
+              <span aria-hidden="true">?</span>
+            </button>
+          </nav>
+        </aside>
+
+        <button id="pause-prompt" class="pause-prompt" type="button" hidden disabled>
+          <span class="pause-prompt__ring" aria-hidden="true"></span>
+          <span id="pause-message" class="pause-prompt__label" data-pause-message>继续漫步</span>
+          <span class="pause-prompt__hint">点击，或按回车键或空格键</span>
+        </button>
+      </main>
+
+      <section
+        id="help-panel"
+        class="help-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="help-title"
+        aria-describedby="help-description"
+        aria-hidden="true"
+        tabindex="-1"
+        hidden
+        inert
+      >
+        <div class="help-panel__sheet">
+          <header class="help-panel__header">
+            <div>
+              <p class="panel-kicker">漫步指南</p>
+              <h2 id="help-title">操作与设置</h2>
+            </div>
+            <button id="help-close" class="panel-close" type="button" aria-label="关闭操作与设置">
+              <span aria-hidden="true"></span>
+            </button>
+          </header>
+
+          <p id="help-description" class="help-panel__intro">
+            放慢脚步，在树冠、院墙与海湾之间选择自己的路线。
+          </p>
+
+          <section class="help-section" aria-labelledby="desktop-help-title">
+            <h3 id="desktop-help-title">桌面漫步</h3>
+            <dl class="instruction-list">
+              <div>
+                <dt><span class="instruction-keys"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></span></dt>
+                <dd>前后左右移动，也可使用方向键</dd>
+              </div>
+              <div>
+                <dt><span class="instruction-mouse" aria-hidden="true"></span></dt>
+                <dd>点击画面后移动鼠标环顾；无法锁定时可按住拖动</dd>
+              </div>
+              <div>
+                <dt><kbd>ESC</kbd></dt>
+                <dd>暂停漫步并释放指针</dd>
+              </div>
+            </dl>
+          </section>
+
+          <section class="help-section" aria-labelledby="touch-help-title">
+            <h3 id="touch-help-title">触控漫步</h3>
+            <p>左侧区域控制移动，右侧区域拖动环顾。竖屏下界面会自动收拢。</p>
+          </section>
+
+          <section class="help-section help-section--settings" aria-labelledby="settings-title">
+            <h3 id="settings-title">风景设置</h3>
+            <button id="motion-button" class="setting-action" type="button" aria-pressed="false">
+              <span class="setting-action__icon setting-action__icon--motion" aria-hidden="true"></span>
+              <span class="setting-action__copy">
+                <strong data-motion-label>减少动态</strong>
+                <small>降低树影与环境变化</small>
+              </span>
+              <span class="setting-action__state" aria-hidden="true"></span>
+            </button>
+            <button id="home-button" class="setting-action" type="button">
+              <span class="setting-action__icon setting-action__icon--home" aria-hidden="true"></span>
+              <span class="setting-action__copy">
+                <strong>回到起点</strong>
+                <small>返回初始街道视角</small>
+              </span>
+              <span class="setting-action__arrow" aria-hidden="true">↗</span>
+            </button>
+          </section>
+
+          <p class="help-panel__footnote">一米对应景观中的一个单位 · 视线朝南即为太平湾</p>
+        </div>
+      </section>
+
+      <div id="move-zone" class="touch-zone touch-zone--move" aria-hidden="true" hidden inert>
+        <span class="touch-zone__caption">移动</span>
+        <span class="joystick-base" aria-hidden="true">
+          <span id="move-stick" class="joystick-stick"></span>
+        </span>
+      </div>
+
+      <div id="look-zone" class="touch-zone touch-zone--look" aria-hidden="true" hidden inert>
+        <span class="look-reticle" aria-hidden="true">
+          <span></span>
+        </span>
+        <span class="touch-zone__caption">拖动环顾</span>
+      </div>
+
+      <section
+        id="fatal-panel"
+        class="fatal-panel"
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby="fatal-title"
+        aria-describedby="fatal-copy"
+        aria-hidden="true"
+        tabindex="-1"
+        hidden
+        inert
+      >
+        <div class="fatal-panel__content">
+          <span class="fatal-panel__mark" aria-hidden="true">!</span>
+          <p class="panel-kicker">BADAGUAN · QINGDAO</p>
+          <h2 id="fatal-title">风景暂时无法载入</h2>
+          <p id="fatal-copy">浏览器未能建立三维景观。请检查图形加速设置后重新载入。</p>
+          <a class="action action--primary fatal-panel__reload" href="/">重新载入</a>
+        </div>
+      </section>
+
+      <p id="live-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true">
+        正在载入八大关景观
+      </p>
+
+      <noscript>
+        <section class="noscript-panel" aria-labelledby="noscript-title">
+          <div class="noscript-panel__content">
+            <p class="panel-kicker">BADAGUAN · QINGDAO</p>
+            <h2 id="noscript-title">需要启用 JavaScript</h2>
+            <p>
+              这是一处实时生成的三维景观。启用 JavaScript 后，您可以从林荫街道出发，经过低矮花园别墅与花岗岩院墙，向南走到太平湾前。
+            </p>
+          </div>
+        </section>
+      </noscript>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
